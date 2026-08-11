@@ -3,7 +3,7 @@ services:
     name: access-opportunities
     runtime: python
     plan: free
-    buildCommand: cat server_parts/01.py server_parts/02.py server_parts/03.py > server.py
+    buildCommand: cat server_parts/01.py server_parts/02.py server_parts/03.py > server.py && python3 bootstrap.py
     startCommand: python3 server.py
     healthCheckPath: /api/health
     renderSubdomainPolicy: enabled
