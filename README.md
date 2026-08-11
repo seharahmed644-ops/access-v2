@@ -14,9 +14,16 @@ Access is a student opportunity discovery and application-tracking platform with
 - Application statuses and notes
 - Admin dashboard and engagement totals
 - Create, edit, delete, and bulk CSV-import opportunities
-- 240 clearly labeled fictional demo listings for product testing
+- Curated real opportunities checked against official sources
+- Automatic removal of the original fictional demo records during deployment
 - Responsive student/admin interface
 - Secure cookies on Render, same-origin write protection, and basic security headers
+
+## Real opportunity catalog
+
+The deployment bootstrap currently includes a curated set of opportunities whose deadlines and official source pages were checked on August 11, 2026. Examples include The Gates Scholarship, Coca-Cola Scholars, QuestBridge National College Match, Regeneron Science Talent Search, YoungArts, the Congressional App Challenge, Elks Most Valuable Student, College Board BigFuture Scholarships, Jack Kent Cooke College Scholarship Program, NASA OSTEM internships, VFW Voice of Democracy, and the University of Toronto Lester B. Pearson International Scholarship.
+
+Opportunity details can change. Students should always open the official source from Access and confirm the current eligibility, deadline, award terms, and application instructions before submitting anything.
 
 ## Deploy on Render
 
@@ -27,13 +34,15 @@ Click **Deploy to Render** above. During the initial Blueprint setup, Render wil
 
 Do not publish those values in GitHub. Render stores them as environment variables.
 
-The free Render service uses ephemeral filesystem storage, so SQLite data can be reset when the service is replaced or redeployed. This is suitable for a public demo. For real users, move the database to managed PostgreSQL or attach persistent storage before relying on it for durable student data.
+The free Render service uses ephemeral filesystem storage. The verified bootstrap catalog is recreated on deployment, but student accounts, saves, applications, and opportunities added only at runtime are not durable enough for a serious production launch. Move the database to managed PostgreSQL or attach persistent storage before relying on Access for real student data.
 
 ## Run locally
 
 Requires Python 3.9+ and no third-party packages.
 
 ```bash
+cat server_parts/01.py server_parts/02.py server_parts/03.py > server.py
+python3 bootstrap.py
 python3 server.py
 ```
 
@@ -54,6 +63,6 @@ ACCESS_ADMIN_EMAIL="you@example.com" ACCESS_ADMIN_PASSWORD="use-a-long-unique-pa
 
 Supported opportunity types: Scholarship, Internship, Program, Competition, Volunteer, Research, and Fellowship.
 
-## Public-launch note
+## Production roadmap
 
-The built-in 240 opportunities are fictional demo records and are labeled as such. Replace them with verified real opportunities before presenting Access as a live opportunity database. A larger production launch should also add email verification/password reset, backups, privacy/terms pages, audit logs, stronger rate limiting, and a managed database.
+Before a larger public launch, add managed PostgreSQL, email verification/password reset, backups, privacy and terms pages, audit logs, stronger rate limiting, and a recurring process for re-verifying opportunities as deadlines and eligibility rules change.
