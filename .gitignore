@@ -1,0 +1,6 @@
+data/access.db
+data/access.db-shm
+data/access.db-wal
+__pycache__/
+*.pyc
+.DS_Store
